@@ -7,10 +7,10 @@ const DB_PASS = process.env.DB_PASS;
 const DB_NAME = process.env.DB_NAME;
 
 const con = mysql.createConnection({
-  host: DB_HOST || "127.0.0.1",
-  user: DB_USER || "root",
+  host: DB_HOST,
+  user: DB_USER,
   password: DB_PASS,
-  database: DB_NAME || "twitter",
+  database: DB_NAME,
   multipleStatements: true
 });
 
@@ -18,10 +18,10 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 
-  let sql = "DROP TABLE if exists users; CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, twitter_id VARCHAR(200), token VARCHAR(500) NOT NULL, token_secret VARCHAR(500) NOT NULL, username VARCHAR(500) NOT NULL, handle VARCHAR(500) NOT NULL, user_description VARCHAR(500), followers VARCHAR(500), friends VARCHAR(500), profile_image VARCHAR(500), PRIMARY KEY (id));";
+  let sql = "DROP TABLE if exists users; CREATE TABLE users(uid INT NOT NULL AUTO_INCREMENT, username VARCHAR(500), password VARCHAR(500), PRIMARY KEY (uid));";
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table creation `twitter` was successful!");
+    console.log("Table creation `users` was successful!");
 
     console.log("Closing...");
   });
