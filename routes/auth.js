@@ -22,7 +22,7 @@ router.post('/register', (req, res) => {
                     // hash the password
                     const hashedPassword = await bcrypt.hash(req.body.password, 10);
                     // insert into user database
-                    db(`INSERT INTO users(username, email, password) VALUES('${req.body.username}', '${req.body.email}', '${hashedPasswordgt}');`)
+                    db(`INSERT INTO users(username, email, password) VALUES('${req.body.username}', '${req.body.email}', '${hashedPassword}');`)
                         .then(result => {
                             res.status(201).send(`Created ${req.body.username} as a new user`);
                         })
@@ -38,7 +38,28 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
+    //Validate login data
+    const {error} = loginValidation(req.body);
+    console.log(error);
+    if(error) return res.status(400).send(`ERROR: ${error.details[0].message}`);
 
+    // Check if user with email exists
+    db(`SELECT * FROM users WHERE email='${req.body.email}';`)
+        .then(async results => {
+            console.log(results);
+            if(results.data.length < 1) return res.status(400).send(`No user with email '${req.body.email}'`);
+            let user = results.data[0];
+            try{
+                // Check if password is correct
+                if(await bcrypt.compare(req.body.password, user.password)){
+                    res.send(`${user.username} has been logged in`);
+                } else{
+                    res.status(400).send('Password incorrect');
+                }
+            } catch (err){
+                console.log(err)
+            }
+        })
 });
 
 module.exports = router;
