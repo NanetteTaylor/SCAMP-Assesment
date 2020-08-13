@@ -1,7 +1,9 @@
+require('dotenv').config();
 const router = require('express').Router();
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const db = require('../model/helper');
-const {registerValidation, loginValidation} = require('../validation');
+const {registerValidation, loginValidation} = require('../config/inputValidation');
 
 router.post('/register', (req, res) => {
     //Validate data before creating a user
@@ -52,7 +54,9 @@ router.post('/login', (req, res) => {
             try{
                 // Check if password is correct
                 if(await bcrypt.compare(req.body.password, user.password)){
-                    res.send(`${user.username} has been logged in`);
+                    // Create and assign a token
+                    const token = jwt.sign({uid: user.uid}, process.env.ACCESS_TOKEN_SECRET);
+                    res.header('auth-token', token).send(`${user.username} has been logged. Token: ${token}`);
                 } else{
                     res.status(400).send('Password incorrect');
                 }
