@@ -55,7 +55,7 @@ router.post('/login', (req, res) => {
                 // Check if password is correct
                 if(await bcrypt.compare(req.body.password, user.password)){
                     // Create and assign a token
-                    const token = await jwt.sign({uid: user.uid, role: user.role}, process.env.ACCESS_TOKEN_SECRET);
+                    const token = await jwt.sign({user_id: user.user_id, role: user.role}, process.env.ACCESS_TOKEN_SECRET);
                     res.header('auth-token', token).send(`${user.username} has been logged in. Token: ${token}`);
                 } else{
                     res.status(400).send('Password incorrect');
