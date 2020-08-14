@@ -18,7 +18,7 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 
-  let sql = "DROP TABLE if exists users; CREATE TABLE users(uid INT NOT NULL AUTO_INCREMENT, username VARCHAR(255), email VARCHAR(255), password VARCHAR(500), date_created DATETIME default CURRENT_TIMESTAMP, PRIMARY KEY (uid));";
+  let sql = "DROP TABLE if exists users; CREATE TABLE users(uid INT NOT NULL AUTO_INCREMENT, username VARCHAR(255), email VARCHAR(255), password VARCHAR(500), role enum('admin', 'basic') default 'basic' null, PRIMARY KEY (uid));";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table creation `users` was successful!");

@@ -24,7 +24,7 @@ router.post('/register', (req, res) => {
                     // hash the password
                     const hashedPassword = await bcrypt.hash(req.body.password, 10);
                     // insert into user database
-                    db(`INSERT INTO users(username, email, password) VALUES('${req.body.username}', '${req.body.email}', '${hashedPassword}');`)
+                    db(`INSERT INTO users(username, email, password, role) VALUES('${req.body.username}', '${req.body.email}', '${hashedPassword}', '${req.body.role || 'basic'}');`)
                         .then(result => {
                             res.status(201).send(`Created ${req.body.username} as a new user`);
                         })
@@ -55,8 +55,8 @@ router.post('/login', (req, res) => {
                 // Check if password is correct
                 if(await bcrypt.compare(req.body.password, user.password)){
                     // Create and assign a token
-                    const token = jwt.sign({uid: user.uid}, process.env.ACCESS_TOKEN_SECRET);
-                    res.header('auth-token', token).send(`${user.username} has been logged. Token: ${token}`);
+                    const token = jwt.sign({uid: user.uid, role: user.role}, process.env.ACCESS_TOKEN_SECRET);
+                    res.header('auth-token', token).send(`${user.username} has been logged in. Token: ${token}`);
                 } else{
                     res.status(400).send('Password incorrect');
                 }

@@ -4,7 +4,8 @@ const registerValidation = data => {
     const registerInputRules = Joi.object({
         username: Joi.string().min(4).required(),
         email: Joi.string().required().email({ minDomainSegments: 2 }),
-        password: Joi.string().min(4).required()
+        password: Joi.string().min(4).required(),
+        role: Joi.string()
     });
     return registerInputRules.validate(data);
 }
