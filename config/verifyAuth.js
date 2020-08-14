@@ -6,7 +6,7 @@ const ROLES = {
 
 const verifyAuth =  async (req, res, next) => {
     const token = req.header('auth-token');
-    if(!token) res.status(401).send('You need to login');
+    if(!token) return res.status(401).send('You need to login');
 
     try{
         req.user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -19,9 +19,9 @@ const verifyAuth =  async (req, res, next) => {
 
 const verifyAccess = (role) => {
     return (req, res, next) => {
-        if (role === ROLES.ADMIN && req.user.role !== ROLES.ADMIN) res.send('Forbidden');
-        else if(role === ROLES.BASIC && (req.user.role !== ROLES.BASIC && req.user.role !== ROLES.ADMIN)) res.send('Forbidden');
-        else next();
+        if (role === ROLES.ADMIN && req.user.role !== ROLES.ADMIN) return res.send('Forbidden');
+        else if(role === ROLES.BASIC && (req.user.role !== ROLES.BASIC && req.user.role !== ROLES.ADMIN)) return res.send('Forbidden');
+        next();
     }
 }
 
