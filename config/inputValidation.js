@@ -18,5 +18,4 @@ const loginValidation = data => {
     return loginInputRules.validate(data);
 }
 
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
+module.exports = {registerValidation, loginValidation}
