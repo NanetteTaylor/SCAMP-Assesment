@@ -14,4 +14,7 @@ Run `npm install` on root folder to install dependencies related to the project.
 5. Run `npm start` to start your server on localhost, port 3000.
 
 ### Routes
-1. http://localhost:5000/api/user/register
+| URI        | HTTP Method | Description      | Request Object  |Response and Notes|
+| ---------- |:-----------:|:----------------:|:---------------:|:-------------:|
+|/api/user/register|POST|Register a user|{"username": "salesperson","email": "sales@scampstore.com","password": "sales","role": "basic"}|Returns a message on whether the user  has been registered or not|
+|
