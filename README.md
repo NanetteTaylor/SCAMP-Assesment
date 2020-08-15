@@ -23,3 +23,4 @@ Run `npm install` on root folder to install dependencies related to the project.
 |/api/inventory/update-quantity/:itemID/:newQuantity|PUT|Update the quantity for an inventory item|NA|Returns feedback message|
 |/api/inventory/update-item/:itemID|PUT|Update an item in the inventory using the item_id|{"name": "Baked Beans","description": "Heinze peppery backed beans","price": 20,"quantity": 80}|Returns feedback message|
 |/api/inventory/order/:itemID/:quantity|POST|Make an order for an item. `:itemID` = item_id of the item being ordered; `:quantity` = the amount being ordered|NA|Returns feedback message|
+
